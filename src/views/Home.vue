@@ -16,35 +16,17 @@
     </header>
     <div class="wrapper">
       <div class="sider">
-        <div class="navList-section">
-          <router-link :to="{ path: '/market' }">
-            <div class="nav market">
-              <div class="nav-content ">行情</div>
-            </div>
-          </router-link>
-          <router-link :to="{ path: '/message' }">
-            <div class="nav message">
-              <div class="nav-content ">资讯</div>
-            </div>
-          </router-link>
-          <router-link :to="{ path: '/myproperty' }">
-            <div class="nav myproperty">
-              <div class="nav-content ">我的资产</div>
-            </div>
-          </router-link>
-          <router-link :to="{ path: '/repository' }">
-            <div class="nav repository">
-              <div class="nav-content ">持仓</div>
-            </div>
-          </router-link>
-          <router-link :to="{ path: '/history' }">
-            <div class="nav history">
-              <div class="nav-content ">交易历史</div>
-            </div>
-          </router-link>
-          <router-link :to="{ path: '/account' }">
-            <div class="nav account">
-              <div class="nav-content ">账户</div>
+        <div class="navList-section" v-if="navList">
+          <router-link
+            v-for="nav in navList"
+            :key="nav.id"
+            :to="{ path: nav.path }"
+          >
+            <div
+              :class="['nav market', { cur: currentNavPath === nav.path }]"
+              @click="changeNav(nav.path)"
+            >
+              <div class="nav-content ">{{ nav.name }}</div>
             </div>
           </router-link>
         </div>
@@ -66,6 +48,48 @@ export default {
   name: "Home",
   components: {
     InputSelect
+  },
+  data() {
+    return {
+      navList: [
+        {
+          id: 1,
+          path: "/market",
+          name: "行情"
+        },
+        {
+          id: 2,
+          path: "/message",
+          name: "资讯"
+        },
+        {
+          id: 3,
+          path: "/myproperty",
+          name: "我的资产"
+        },
+        {
+          id: 4,
+          path: "/repository",
+          name: "持仓"
+        },
+        {
+          id: 5,
+          path: "/history",
+          name: "交易历史"
+        },
+        {
+          id: 6,
+          path: "/account",
+          name: "账户"
+        }
+      ],
+      currentNavPath: this.$route.matched[1].path
+    };
+  },
+  methods: {
+    changeNav(path) {
+      this.currentNavPath = path;
+    }
   }
 };
 </script>
